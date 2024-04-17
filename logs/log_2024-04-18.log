@@ -1,0 +1,30 @@
+2024-04-18T02:14:53.172+0800	INFO	middlewares/logger.go:30	/test	{"status": 200, "method": "GET", "path": "/test", "query": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6MywiTmlja05hbWUiOiJGRiIsIkVtYWlsIjoiZmF5ZmFubm8xQHFxLmNvbSIsIkhlYWRVcmwiOiJodHRwOi8vcmVzb3VyY2UuZGpwLm9yZy5jbi9pbWFnZXMvaGVhZF9kZWZhdWx0LnBuZyIsImV4cCI6MTcxMzk4MTk3MSwiaXNzIjoidGVzdCIsIm5iZiI6MTcxMzM3NzE3MX0.2JfdiI09byiniqEqU5sS_OocUeFgSoonCdp0Ib1BbZM", "ip": "127.0.0.1", "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36", "errors": "", "cost": "2m32.509752814s"}
+2024-04-18T02:17:15.445+0800	INFO	middlewares/logger.go:30	/test	{"status": 200, "method": "GET", "path": "/test", "query": "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6MSwiTmlja05hbWUiOiJESlAiLCJFbWFpbCI6IjkyOTQzNTk3OUBxcS5jb20iLCJIZWFkVXJsIjoiaHR0cDovL3Jlc291cmNlLmRqcC5vcmcuY24vaW1hZ2VzL2hlYWRfZGVmYXVsdC5wbmciLCJleHAiOjE3MTM5NzUwNjksImlzcyI6InRlc3QiLCJuYmYiOjE3MTMzNzAyNjl9.8Vv5c_vTon_JMpDhOegVvD8IuuoHAp54UERai8ESp3c", "ip": "127.0.0.1", "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36", "errors": "", "cost": "4m58.732575559s"}
+2024-04-18T02:59:50.018+0800	INFO	service/chat.go:48	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:04:33.836+0800	INFO	service/chat.go:50	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:04:33.837+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:04:33.837+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:08:18.342+0800	INFO	service/chat.go:50	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:08:18.345+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:08:18.346+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:10:44.939+0800	INFO	service/chat.go:51	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:10:44.940+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:10:44.940+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:10:44.940+0800	INFO	service/chat.go:36	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","from_user_id":1,"room_id":1}},"form_user_id":1}}
+2024-04-18T03:15:44.754+0800	INFO	service/chat.go:51	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:15:44.756+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:15:44.756+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:15:44.756+0800	INFO	service/chat.go:36	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","from_user_id":1,"room_id":1}},"form_user_id":1}}
+2024-04-18T03:18:41.279+0800	INFO	service/chat.go:51	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:18:41.281+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:18:41.281+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:18:41.281+0800	INFO	service/chat.go:36	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","from_user_id":1,"room_id":1}},"form_user_id":1}}
+2024-04-18T03:18:41.281+0800	INFO	service/user.go:103	SendMsgToUidList	{"form_user_id": null}
+2024-04-18T03:21:28.750+0800	INFO	service/chat.go:51	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:21:28.751+0800	INFO	service/chat.go:33	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"form_user_id":1}}
+2024-04-18T03:21:28.752+0800	INFO	service/chat.go:34	Start	{"msg": 1}
+2024-04-18T03:21:28.752+0800	INFO	service/chat.go:36	Start	{"msg": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","from_user_id":1,"room_id":1}},"form_user_id":1}}
+2024-04-18T03:21:28.752+0800	INFO	service/user.go:103	SendMsgToUidList	{"form_user_id": null}
+2024-04-18T03:26:36.438+0800	INFO	service/chat.go:48	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"from_user_id":1}}
+2024-04-18T03:27:48.134+0800	INFO	service/chat.go:48	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"from_user_id":1}}
+2024-04-18T03:28:10.263+0800	INFO	service/chat.go:48	SendMsg	{"chat": {"msg":{"chat_msg_type":1,"data":{"content":"新用户已上线","room_id":1}},"from_user_id":3}}
