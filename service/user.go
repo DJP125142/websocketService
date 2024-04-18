@@ -118,13 +118,14 @@ func (user *userConn) SendMsgToUidList(user_ids []int, msg interface{}) (res_use
 
 // 用户上线通知
 // 通知大厅
-func (user *userConn) Online(user_id int) {
+func (user *userConn) Online(user_id int, username string) {
 	// 构建一条系统的上线通知消息
 	var content model.ChatMsg
 	content.ChatMsgType = 1
+	content.MsgType = 1 // 1-系统通知：上线提醒
 	content.Data = map[string]interface{}{
 		"room_id": 1,
-		"content": "新用户已上线",
+		"content": username + "已上线",
 	}
 
 	var msg model.ConnMsg

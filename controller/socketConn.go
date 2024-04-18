@@ -1,10 +1,14 @@
 package controller
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"go.uber.org/zap"
 	"net/http"
+	"time"
+	"websocketService/global"
 	"websocketService/model"
 	"websocketService/response"
 	"websocketService/service"
@@ -61,7 +65,7 @@ func CreateConn(c *gin.Context) {
 	// 用户加入连接集,用强制加入方式
 	service.NewUser().ConnConnect(user_id, 2, conn)
 	// 用户上线通知
-	service.NewUser().Online(user_id)
+	service.NewUser().Online(user_id, userInfo["username"].(string))
 
 	//	用户断开销毁
 	defer func() {
@@ -86,15 +90,19 @@ func CreateConn(c *gin.Context) {
 		// do something.....
 
 		msg.FromUserID = user_id
+		msg.Msg.Data["from_user_id"] = user_id
+		if err = valMsg(&msg); err != nil {
+			// todo 返回错误提示,但连接不该断
+			continue
+		}
+
 		//	发送回信息
-		err = conn.WriteJSON(msg)
+		global.Lg.Info("CreatedConn", zap.Any("msg", msg.Msg))
+
+		err = conn.WriteJSON(msg.Msg)
 		if err != nil {
 			fmt.Println("用户断开:", err.Error())
 			return
-		}
-		if err = valMsg(msg); err != nil {
-			// todo 返回错误提示,但连接不该断
-			continue
 		}
 		// 将消息写入通道
 		service.NewChatRoomThread().SendMsg(msg)
@@ -104,7 +112,28 @@ func CreateConn(c *gin.Context) {
 }
 
 // 验证数据 例如用户是否有加入聊天室
-func valMsg(msg model.ConnMsg) error {
-	// do something...
+func valMsg(msg *model.ConnMsg) error {
+	global.Lg.Info("valMsg", zap.Any("msg", msg))
+	if err := validateAndConvertData(msg.Msg.Data); err != nil {
+		return err
+	}
+	//加上时间戳
+	msg.Msg.Data["created_at"] = time.Now().Format(time.RFC3339) // 使用 RFC3339 格式化时间字符串
+	return nil
+}
+
+// validateAndConvertData 检查并转换 Data 中的 room_id 为正确的 int 类型
+func validateAndConvertData(data map[string]interface{}) error {
+	if roomId, ok := data["room_id"]; ok {
+		switch v := roomId.(type) {
+		case float64:
+			// JSON 解码可能将数值解释为 float64，需要转换为 int
+			data["room_id"] = int(v)
+		case int:
+			// room_id 已经是 int 类型，无需转换
+		default:
+			return errors.New("room_id must be a number")
+		}
+	}
 	return nil
 }

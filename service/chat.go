@@ -3,6 +3,7 @@ package service
 import (
 	"go.uber.org/zap"
 	"sync"
+	"time"
 	"websocketService/global"
 	"websocketService/model"
 )
@@ -46,5 +47,7 @@ func (chat *chatRoomThread) Start() {
 // 向通道内发送消息
 func (chat *chatRoomThread) SendMsg(msg model.ConnMsg) {
 	global.Lg.Info("SendMsg", zap.Any("chat", msg))
+	//加上时间戳
+	msg.Msg.Data["created_at"] = time.Now().Format(time.RFC3339) // 使用 RFC3339 格式化时间字符串
 	chat.msgChannel <- msg
 }

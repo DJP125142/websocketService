@@ -10,5 +10,6 @@ type ConnMsg struct {
 // ChatMsgType = 1 群聊信息 ChatMsgType = 2 一对一信息 ...
 type ChatMsg struct {
 	ChatMsgType int                    `json:"chat_msg_type,omitempty"`
+	MsgType     int                    `json:"msg_type,omitempty"`
 	Data        map[string]interface{} `json:"data,omitempty"`
 }
