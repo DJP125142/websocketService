@@ -97,9 +97,9 @@ func (user *userConn) SendMsgToUidList(user_ids []int, msg interface{}) (res_use
 		content := msg.(model.ChatMsg)
 		if content.ChatMsgType == 1 {
 			// 群聊中遍历到自己时，跳过发送
-			if user_id == content.Data["from_user_id"].(int) {
-				continue
-			}
+			//if user_id == content.Data["from_user_id"].(int) {
+			//	continue
+			//}
 		}
 		// 获取每个目标用户的消息通道
 		if conn, ok := user.userConn[user_id]; ok {
@@ -122,16 +122,37 @@ func (user *userConn) Online(user_id int, username string) {
 	// 构建一条系统的上线通知消息
 	var content model.ChatMsg
 	content.ChatMsgType = 1
-	content.MsgType = 1 // 1-系统通知：上线提醒
+	content.MsgType = 1 // 1-系统通知：上下线提醒
+	room_id := 1        // 聊天大厅默认id
+
 	content.Data = map[string]interface{}{
-		"room_id": 1,
-		"content": username + "已上线",
+		"room_id":            room_id,
+		"content":            username + "已上线",
+		"oneline_user_count": NewRoom().GetRoomOnlineUserCount(room_id),
 	}
 
 	var msg model.ConnMsg
 	msg.FromUserID = user_id
 	msg.Msg = content
+	NewChatRoomThread().SendMsg(msg)
+}
+
+// 用户上线通知
+// 通知大厅
+func (user *userConn) Offline(user_id int, username string) {
+	// 构建一条系统的上线通知消息
+	var content model.ChatMsg
+	content.ChatMsgType = 1
+	content.MsgType = 1 // 1-系统通知：上下线提醒
+	room_id := 1        // 聊天大厅默认id
+	content.Data = map[string]interface{}{
+		"room_id":            room_id,
+		"content":            username + "已离开",
+		"oneline_user_count": NewRoom().GetRoomOnlineUserCount(room_id),
+	}
+	var msg model.ConnMsg
+	msg.FromUserID = user_id
+	msg.Msg = content
 
 	NewChatRoomThread().SendMsg(msg)
-
 }

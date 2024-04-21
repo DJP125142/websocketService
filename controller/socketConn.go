@@ -70,13 +70,16 @@ func CreateConn(c *gin.Context) {
 	//	用户断开销毁
 	defer func() {
 		conn.Close()
+		// 用户离开房间
+		service.NewRoom().UserQuitRoom(1, user_id)
 		// 连接断开时也要销毁连接集里的对象
 		service.NewUser().ConnDisconnect(user_id, conn)
+		// 用户下线通知
+		service.NewUser().Offline(user_id, userInfo["username"].(string))
 	}()
 
 	for {
 		var msg model.ConnMsg
-		//	ReadJSON 获取值的方式类似于gin的 ctx.ShouldBind() 通过结构体的json映射值
 		//	如果读不到值 则堵塞在此处
 		err = conn.ReadJSON(&msg)
 		if err != nil {
@@ -87,7 +90,6 @@ func CreateConn(c *gin.Context) {
 				return
 			}
 		}
-		// do something.....
 
 		msg.FromUserID = user_id
 		msg.Msg.Data["from_user_id"] = user_id
@@ -97,13 +99,7 @@ func CreateConn(c *gin.Context) {
 		}
 
 		//	发送回信息
-		global.Lg.Info("CreatedConn", zap.Any("msg", msg.Msg))
-
-		err = conn.WriteJSON(msg.Msg)
-		if err != nil {
-			fmt.Println("用户断开:", err.Error())
-			return
-		}
+		//err = conn.WriteJSON(msg.Msg)
 		// 将消息写入通道
 		service.NewChatRoomThread().SendMsg(msg)
 

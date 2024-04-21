@@ -1,6 +1,8 @@
 package service
 
-import "sync"
+import (
+	"sync"
+)
 
 // 定义一个map来存储群内的用户id
 type rooms struct {
@@ -18,6 +20,13 @@ func NewRoom() *rooms {
 		room.lock = sync.Mutex{}
 	})
 	return room
+}
+
+// 获取房间内在线人数
+func (room *rooms) GetRoomOnlineUserCount(room_id int) int {
+	room.lock.Lock()
+	defer room.lock.Unlock()
+	return len(room.members[room_id])
 }
 
 // 发送群消息
