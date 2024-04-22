@@ -60,6 +60,7 @@ func CreateConn(c *gin.Context) {
 
 	// 获取用户加入的聊天室id数组
 	//room_ids, _ := ModelChatRoom.GetUserRoomIds(user_id)
+
 	// 用户加入大厅
 	service.NewRoom().UserJoinRoom(1, user_id)
 	// 用户加入连接集,用强制加入方式
@@ -110,6 +111,13 @@ func CreateConn(c *gin.Context) {
 // 验证数据 例如用户是否有加入聊天室
 func valMsg(msg *model.ConnMsg) error {
 	global.Lg.Info("valMsg", zap.Any("msg", msg))
+	if msg.Msg.MsgType == 3 {
+		user_ids := []int{msg.Msg.Data["from_user_id"].(int), int(msg.Msg.Data["to_user_id"].(float64))}
+		room_id := service.NewRoom().CreateRoomId()
+		msg.Msg.Data["room_id"] = room_id
+		service.NewRoom().UsersJoinRoom(room_id, user_ids)
+	}
+	global.Lg.Info("valMsg", zap.Any("createRoomId", msg))
 	if err := validateAndConvertData(msg.Msg.Data); err != nil {
 		return err
 	}
