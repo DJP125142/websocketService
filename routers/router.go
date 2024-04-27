@@ -6,5 +6,5 @@ import (
 )
 
 func WsRouter(Router *gin.Engine) {
-	Router.GET("test", controller.CreateConn)
+	Router.GET("/", controller.CreateConn)
 }
