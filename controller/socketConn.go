@@ -7,6 +7,7 @@ import (
 	"github.com/gorilla/websocket"
 	"go.uber.org/zap"
 	"net/http"
+	"strconv"
 	"time"
 	"websocketService/global"
 	"websocketService/model"
@@ -101,6 +102,7 @@ func CreateConn(c *gin.Context) {
 
 		//	发送回信息
 		//err = conn.WriteJSON(msg.Msg)
+
 		// 将消息写入通道
 		service.NewChatRoomThread().SendMsg(msg)
 
@@ -111,16 +113,18 @@ func CreateConn(c *gin.Context) {
 // 验证数据 例如用户是否有加入聊天室
 func valMsg(msg *model.ConnMsg) error {
 	global.Lg.Info("valMsg", zap.Any("msg", msg))
+	// 发起私聊，创建一个房间
 	if msg.Msg.MsgType == 3 {
 		user_ids := []int{msg.Msg.Data["from_user_id"].(int), int(msg.Msg.Data["to_user_id"].(float64))}
 		room_id := service.NewRoom().CreateRoomId()
 		msg.Msg.Data["room_id"] = room_id
 		service.NewRoom().UsersJoinRoom(room_id, user_ids)
 	}
-	global.Lg.Info("valMsg", zap.Any("createRoomId", msg))
+
 	if err := validateAndConvertData(msg.Msg.Data); err != nil {
 		return err
 	}
+
 	//加上时间戳
 	msg.Msg.Data["created_at"] = time.Now().Format(time.RFC3339) // 使用 RFC3339 格式化时间字符串
 	return nil
@@ -133,6 +137,8 @@ func validateAndConvertData(data map[string]interface{}) error {
 		case float64:
 			// JSON 解码可能将数值解释为 float64，需要转换为 int
 			data["room_id"] = int(v)
+		case string:
+			data["room_id"], _ = strconv.Atoi(v)
 		case int:
 			// room_id 已经是 int 类型，无需转换
 		default:

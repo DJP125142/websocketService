@@ -1,9 +1,7 @@
 package service
 
 import (
-	"go.uber.org/zap"
 	"sync"
-	"websocketService/global"
 )
 
 // 定义一个map来存储群内的用户id
@@ -53,15 +51,11 @@ func (room *rooms) SendMsgToRoom(room_id int, msg interface{}) {
 	room.lock.Lock()
 	defer room.lock.Unlock()
 
-	global.Lg.Info("SendMsgToRoom", zap.Any("room_id", room_id))
-	global.Lg.Info("SendMsgToRoom", zap.Any("members", room.members))
-
 	// 获取房间内所有人user_id
 	var user_ids []int
 	for key, _ := range room.members[room_id] {
 		user_ids = append(user_ids, key)
 	}
-	global.Lg.Info("SendMsgToRoom", zap.Any("user_ids", user_ids))
 	// 批量发送消息
 	user.SendMsgToUidList(user_ids, msg)
 }
